@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLoginPage = () => {
- 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
-  
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Attempting to log in with:', { username, password });
-    
+
+    try {
+     
+      const response = await axios.post('http://localhost:5000/api/admin/login', {
+        username,
+        password,
+      });
+
+     
+      alert(response.data.message);
+      navigate('/admin/dashboard'); 
+
+    } catch (error) {
+      console.error('Login error:', error.response ? error.response.data : error.message);
+      alert(error.response.data.message || 'An error occurred during login.');
+    }
   };
 
   return (
