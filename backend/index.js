@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose'); 
+const cors = require('cors');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
+const adminRoutes = require('./routes/admin.route.js');
+
+app.use(cors());
+app.use(express.json()); 
 
 const connectDB = async () => {
   try {
@@ -16,6 +21,7 @@ const connectDB = async () => {
 };
 
 connectDB();
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello from the College Management System backend!');
