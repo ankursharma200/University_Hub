@@ -1,12 +1,3 @@
 import React from 'react';
-
-const AdminDashboard = () => {
-  return (
-    <div>
-      <h1>Welcome to the Admin Dashboard!</h1>
-      <p>You have successfully logged in.</p>
-    </div>
-  );
-};
-
+const AdminDashboard = () => <div><h1>Admin Dashboard Content</h1></div>;
 export default AdminDashboard;
