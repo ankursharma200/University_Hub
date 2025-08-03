@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
 const adminRoutes = require('./routes/admin.route.js');
+const studentRoutes = require('./routes/student.route.js')
 
 app.use(cors());
 app.use(express.json()); 
@@ -22,10 +23,9 @@ const connectDB = async () => {
 
 connectDB();
 app.use('/api/admin', adminRoutes);
+app.use('/api/student', studentRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hello from the College Management System backend!');
-});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

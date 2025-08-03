@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +10,7 @@ const AdminLoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const toastId = toast.loading('Logging in...');
 
     try {
      
@@ -18,12 +20,12 @@ const AdminLoginPage = () => {
       });
 
      
-      alert(response.data.message);
+      toast.success(response.data.message, { id: toastId });
       navigate('/admin/dashboard'); 
 
     } catch (error) {
-      console.error('Login error:', error.response ? error.response.data : error.message);
-      alert(error.response.data.message || 'An error occurred during login.');
+      const errorMessage = error.response?.data?.message || 'An error occurred.';
+      toast.error(errorMessage, { id: toastId }); // Show error toast
     }
   };
 
