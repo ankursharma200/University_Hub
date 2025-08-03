@@ -1,9 +1,7 @@
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+
 
 const StudentRegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,29 +10,36 @@ const StudentRegisterPage = () => {
     password: '',
   });
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const toastId = toast.loading('Registering...');
-
-    try {
+  
+  
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+  
     
-      const response = await axios.post('http://localhost:5000/api/student/register', formData);
-      
-      toast.success(response.data.message, { id: toastId });
-      navigate('/student-login'); 
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'An error occurred during registration.';
-      toast.error(errorMessage, { id: toastId });
-    }
-  };
+    const handleSubmit = (event) => {
+  event.preventDefault();
+  console.log('Inside handleSubmit:', formData);
+
+  axios.post('http://localhost:5000/api/student/register', formData)
+    .then(response => {
+      console.log('SUCCESS:', response.data);
+      alert('Registration Successful!');
+      navigate('/student-login');
+    })
+    .catch(error => {
+      if (error.response) {
+        console.error('Server responded with error:', error.response.data);
+      } else if (error.request) {
+        console.error('Request was made but no response received:', error.request);
+      } else {
+        console.error('Error setting up the request:', error.message);
+      }
+      alert('Registration Failed. Check console.');
+    });
+};
 
   return (
-   
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center">Student Registration</h2>

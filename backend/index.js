@@ -4,11 +4,21 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+
 const PORT = process.env.PORT || 5000;
 const adminRoutes = require('./routes/admin.route.js');
 const studentRoutes = require('./routes/student.route.js')
+const facultyRoutes = require('./routes/faculty.route.js');
 
-app.use(cors());
+
+
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true,
+}));
+
 app.use(express.json()); 
 
 const connectDB = async () => {
@@ -22,10 +32,11 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+
 app.use('/api/admin', adminRoutes);
 app.use('/api/student', studentRoutes);
-
-
+app.use('/api/faculty', facultyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
